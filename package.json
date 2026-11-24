@@ -1,0 +1,76 @@
+{
+  "name": "@bloom-group/monad",
+  "version": "1.0.0",
+  "description": "Optional and Result monads for TypeScript: handle missing values and typed errors without null checks or exceptions.",
+  "type": "module",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./lib/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./optional": {
+      "types": "./lib/optional.d.ts",
+      "default": "./lib/optional.js"
+    },
+    "./result": {
+      "types": "./lib/result.d.ts",
+      "default": "./lib/result.js"
+    }
+  },
+  "files": [
+    "lib",
+    "src",
+    "!src/**/*.test.ts"
+  ],
+  "engines": {
+    "node": ">=22"
+  },
+  "sideEffects": false,
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "prepare": "husky",
+    "prepublishOnly": "npm run deps:audit && npm run typecheck && npm test && npm run build",
+    "lint": "eslint src --max-warnings=0",
+    "format:check": "prettier --check .",
+    "format": "prettier --write .",
+    "deps:audit": "pnpm audit --audit-level low",
+    "deps:install": "pnpm install --frozen-lockfile --lockfile-only --ignore-scripts && npm run deps:audit && pnpm install --frozen-lockfile --ignore-scripts && npm run prepare"
+  },
+  "keywords": [
+    "monad",
+    "optional",
+    "maybe",
+    "result",
+    "either",
+    "error-handling",
+    "typescript"
+  ],
+  "author": "Bloom Group",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BloomTechNL/monad.git"
+  },
+  "homepage": "https://github.com/BloomTechNL/monad#readme",
+  "bugs": {
+    "url": "https://github.com/BloomTechNL/monad/issues"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@types/node": "^24",
+    "eslint": "^10.15.0",
+    "husky": "^9.1.7",
+    "prettier": "^3.10.1",
+    "typescript": "^6.0.3",
+    "typescript-eslint": "^8.73.0",
+    "vitest": "^5.0.5"
+  },
+  "packageManager": "pnpm@12.8.1"
+}

@@ -1,0 +1,14 @@
+set -eu
+
+set -- package.json pnpm-lock.yaml pnpm-workspace.yaml .npmrc .pnpmfile.cjs .pnpmfile.mjs
+if ! git diff --cached --quiet -- "$@"; then
+  if ! git diff --quiet -- "$@" || [ -n "$(git ls-files --others --exclude-standard -- "$@")" ]; then
+    echo 'Stage all dependency configuration changes before committing.' >&2
+    exit 1
+  fi
+
+  pnpm install --frozen-lockfile --lockfile-only --ignore-scripts
+  npm run deps:audit
+fi
+
+npm test
