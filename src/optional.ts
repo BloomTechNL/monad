@@ -21,7 +21,7 @@ export class Missing<T> {
     return new Present(value);
   }
 
-  thisOrFill(value: Optional<T>): Optional<T> {
+  or<S>(value: S): Optional<T> | S {
     return value;
   }
 
@@ -53,11 +53,12 @@ export class Present<T> {
     return new Present(f(this.value));
   }
 
-  fillMissing(_defaultValue: T): this {
+  // eslint-disable-next-line @typescript-eslint/prefer-return-this-type
+  fillMissing(_defaultValue: T): Present<T> {
     return this;
   }
 
-  thisOrFill(_defaultValue: Optional<T>): Optional<T> {
+  or<S>(_value: S): Optional<T> | S {
     return this;
   }
 

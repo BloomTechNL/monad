@@ -51,7 +51,7 @@ if (street.isPresent()) {
 }
 
 street.fillMissing('unknown'); // Present<string>, using the fallback when missing
-street.thisOrFill(lookupElsewhere()); // this Optional, or the fallback Optional when missing
+street.or(lookupElsewhere()); // this Optional, or the fallback value when missing
 street.throwIfMissing(); // string, or throws when missing
 
 toUndefined(street); // string | undefined
@@ -102,7 +102,8 @@ if (age.isOk()) {
 if (result.isOk()) result.value; // the ok value
 if (result.isErr()) result.value; // the error
 
-result.throw(); // the ok value, or throws the error as-is
+result.unwrap(); // the ok value, or throws the error as-is
+result.toNullable(); // the ok value, or null for an error
 
 const age = parseAge(input).throwAs(
   'out-of-range',

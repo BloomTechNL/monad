@@ -35,6 +35,10 @@ describe('Missing', () => {
     expect(result.value).toBe(42);
   });
 
+  it('should return the fallback when or is called', () => {
+    expect(missing.or('fallback')).toBe('fallback');
+  });
+
   it('should throw error when throwIfMissing is called', () => {
     expect(() => missing.throwIfMissing()).toThrow(
       'Called throwIfMissing on None',
@@ -85,6 +89,10 @@ describe('Present', () => {
   it('should return stored value when withDefault is called', () => {
     const result = present.fillMissing(42);
     expect(result.value).toBe(10);
+  });
+
+  it('should return itself when or is called', () => {
+    expect(present.or('fallback')).toBe(present);
   });
 
   it('should return stored value when throwIfMissing is called', () => {

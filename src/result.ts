@@ -29,14 +29,17 @@ export class Err<OkValue, ErrValue> implements Result<OkValue, ErrValue> {
     return new Err(f(this.value));
   }
 
-  throw(): OkValue {
-    // eslint-disable-next-line @typescript-eslint/only-throw-error
-    throw this.value;
+  unwrap(): OkValue {
+    throw this.value as unknown;
   }
 
   throwAs<T>(x: T, throwable: unknown): Result<OkValue, Exclude<ErrValue, T>> {
     if ((this.value as unknown) === x) throw throwable;
     return this as unknown as Result<OkValue, Exclude<ErrValue, T>>;
+  }
+
+  toNullable(): OkValue | null {
+    return null;
   }
 }
 
@@ -81,7 +84,7 @@ export class Ok<OkValue, ErrValue> implements Result<OkValue, ErrValue> {
     return await f(this.value);
   }
 
-  throw(): OkValue {
+  unwrap(): OkValue {
     return this.value;
   }
 
@@ -90,6 +93,10 @@ export class Ok<OkValue, ErrValue> implements Result<OkValue, ErrValue> {
     _throwable: unknown,
   ): Result<OkValue, Exclude<ErrValue, T>> {
     return this as unknown as Result<OkValue, Exclude<ErrValue, T>>;
+  }
+
+  toNullable(): OkValue {
+    return this.value;
   }
 }
 
@@ -106,11 +113,12 @@ export interface Result<OkValue, ErrValue> {
   errMap<ErrReturn>(
     f: (value: ErrValue) => ErrReturn,
   ): Result<OkValue, ErrReturn>;
-  throw(): OkValue;
+  unwrap(): OkValue;
   throwAs<T extends ErrValue>(
     x: T,
     throwable: unknown,
   ): Result<OkValue, Exclude<ErrValue, T>>;
+  toNullable(): OkValue | null;
 }
 
 export function pure<OkValue, ErrValue>(

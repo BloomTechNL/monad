@@ -45,11 +45,16 @@ describe('Result', () => {
     expect(pureResult).toEqual(new Ok('test'));
   });
 
-  it('throws an error when asked to', () => {
+  it('unwraps the ok value or throws the error', () => {
     const result = new Ok(3);
-    expect(result.throw()).toEqual(3);
+    expect(result.unwrap()).toEqual(3);
 
     const err = new Err(new Error('some error'));
-    expect(() => err.throw()).toThrow('some error');
+    expect(() => err.unwrap()).toThrow('some error');
+  });
+
+  it('converts to a nullable value', () => {
+    expect(new Ok(3).toNullable()).toEqual(3);
+    expect(new Err('bad').toNullable()).toBeNull();
   });
 });
