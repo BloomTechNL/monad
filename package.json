@@ -1,6 +1,6 @@
 {
   "name": "@bloom-group/monad",
-  "version": "1.0.1",
+  "version": "2.0.0",
   "description": "Optional and Result monads for TypeScript: handle missing values and typed errors without null checks or exceptions.",
   "type": "module",
   "main": "lib/index.js",
